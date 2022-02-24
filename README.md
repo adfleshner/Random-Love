@@ -15,7 +15,6 @@ What else are you gonna do with it?
 I dunno you tell me or better yet expand upon it and make a PR :)
 
 ## The App 
-https://github.com/adfleshner/Random-Love/blob/main/art/wasted.gif?raw=true
 <img src="https://github.com/adfleshner/Random-Love/blob/main/art/wasted.gif?raw=true"
 style="object-fit:cover;
 width:356px;
