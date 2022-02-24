@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Random Coding love</string>
-    <string name="the_source">Images from the thecodinglove.com</string>
+    <string name="app_name">Random Coding Love</string>
+    <string name="the_source">All Love from the thecodinglove.com</string>
     <string name="the_url">https://thecodinglove.com/</string>
+    <string name="loading_next_image">Loading next image…</string>
 </resources>

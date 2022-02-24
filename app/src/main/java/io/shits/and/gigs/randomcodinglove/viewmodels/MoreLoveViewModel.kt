@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.view.View
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -60,7 +61,9 @@ class MoreLoveViewModel : ViewModel() {
 
     fun goToTheSource(view: View){
         try {
-            view.context.startActivity(Intent(view.context.getString(R.string.the_url)))
+            view.context.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = view.context.getString(R.string.the_url).toUri()
+            })
         }catch (ex:ActivityNotFoundException){}
     }
 
