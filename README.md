@@ -9,9 +9,6 @@ Click the Image in the middle of the screen and laugh :)
 Why did you do it?
 I wanted an easy way to see random coding love gif so I can laugh :)
 
-Did this take long?
-No
-
 What else are you gonna do with it?
 I dunno you tell me or better yet expand upon it and make a PR :)
 
