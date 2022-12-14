@@ -35,6 +35,7 @@ android {
     buildFeatures {
         dataBinding true
     }
+    namespace 'io.shits.and.gigs.randomcodinglove'
 }
 
 dependencies {
