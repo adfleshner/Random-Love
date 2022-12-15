@@ -23,7 +23,7 @@ object BindingAdapters {
     @BindingAdapter("app:image_response")
     fun setImageResponse(image: ImageView, response: MoreLoveViewModel.Response){
         val gif = when(response){
-            MoreLoveViewModel.Response.Failed -> "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftenor.com%2Fsearch%2Fsad-dog-gifs&psig=AOvVaw2PFThXpvVIDEhb31YWNMr7&ust=1645763873700000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNDAuarCl_YCFQAAAAAdAAAAABAD"
+            MoreLoveViewModel.Response.Failed -> "https://media.tenor.com/FZxj4M9HGSwAAAAd/jinsoulery-jinsoulburger.gif"
             is MoreLoveViewModel.Response.Success -> response.love.gifUrl
             else -> { null }
         }
