@@ -1,4 +1,4 @@
-package io.shits.and.gigs.randomcodinglove.dataaboutapp
+package com.flesh.dataaboutapp.dataaboutapp
 
 
 import android.app.Dialog
@@ -14,18 +14,16 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.shits.and.gigs.randomcodinglove.dataaboutapp.models.BaseDataAboutAppObject
-import io.shits.and.gigs.randomcodinglove.databinding.DialogDataAboutAppBinding
+import com.flesh.dataaboutapp.dataaboutapp.models.BaseDataAboutAppObject
+import com.flesh.dataaboutapp.databinding.DialogDataAboutAppBinding
 import kotlinx.coroutines.launch
 
 class DataAboutAppDialogFragment : DialogFragment() {
 
-    private val repository: DataAboutAppRepository by lazy {
-        DataAboutAppRepository(resources)
-    }
+    private var repository: DataAboutAppRepository? = null
 
     private val viewModel: DataAboutAppViewModel by viewModels {
-        DataAboutAppViewModel.Factory(repository)
+        DataAboutAppViewModel.Factory(repository!!)
     }
 
     private val adapter: DataAboutAppAdapter by lazy {
@@ -64,21 +62,20 @@ class DataAboutAppDialogFragment : DialogFragment() {
         }
         viewModel.addObserverToLifeCycle(dialogOwner.lifecycle)
         return AlertDialog.Builder(requireContext())
-            .setTitle("Data About App")
+            .setTitle("Data About ${viewModel.title}")
             .setView(binding.root)
             .create()
     }
 
     companion object {
-        fun showDialog(fragmentManager: FragmentManager,owner: LifecycleOwner) {
+        fun showDialog(fragmentManager: FragmentManager, dataAboutAppRepository: DataAboutAppRepository, owner: LifecycleOwner) {
             val tag = DataAboutAppDialogFragment::class.java.simpleName
             if (fragmentManager.findFragmentByTag(tag) == null) {
-                Log.d(tag, "showDialog: yes")
                 DataAboutAppDialogFragment().apply {
                     _dialogOwner = owner
+                    repository = dataAboutAppRepository
                 }.show(fragmentManager, tag)
             }
-            Log.d(tag, "showDialog: please")
         }
     }
 

@@ -1,7 +1,6 @@
-package io.shits.and.gigs.randomcodinglove.dataaboutapp
+package com.flesh.dataaboutapp.dataaboutapp
 
 import androidx.lifecycle.*
-import io.shits.and.gigs.randomcodinglove.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,6 +15,8 @@ class DataAboutAppViewModel(private val dataAboutAppRepository: DataAboutAppRepo
     }
 
     val data : SharedFlow<List<String>> = _data.asSharedFlow()
+
+    val title = dataAboutAppRepository.title
 
     private inner class DataAboutAppLifeCycleObserver : DefaultLifecycleObserver {
 
@@ -34,14 +35,7 @@ class DataAboutAppViewModel(private val dataAboutAppRepository: DataAboutAppRepo
 
     private fun fetchData(){
         viewModelScope.launch(Dispatchers.IO){
-            val gitBranch = "Branch: ${dataAboutAppRepository.gitBranch}"
-            val versionName = "Version Name: ${BuildConfig.VERSION_NAME}"
-            val buildType = "Build Type: ${BuildConfig.BUILD_TYPE}"
-            val list = mutableListOf<String>()
-            list.add(gitBranch)
-            list.add(versionName)
-            list.add(buildType)
-            _data.emit(list)
+            _data.emit(dataAboutAppRepository.list)
         }
     }
 

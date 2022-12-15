@@ -1,14 +1,12 @@
-package io.shits.and.gigs.randomcodinglove.dataaboutapp
+package com.flesh.dataaboutapp.dataaboutapp
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import io.shits.and.gigs.randomcodinglove.dataaboutapp.models.BaseDataAboutAppObject
-import io.shits.and.gigs.randomcodinglove.databinding.ListItemDataAboutAppSimpleBinding
+import com.flesh.dataaboutapp.dataaboutapp.models.BaseDataAboutAppObject
+import com.flesh.dataaboutapp.databinding.ListItemDataAboutAppSimpleBinding
 
 private object BaseDataAboutAppDiffUtil : DiffUtil.ItemCallback<BaseDataAboutAppObject>() {
     override fun areItemsTheSame(
@@ -31,7 +29,9 @@ private object BaseDataAboutAppDiffUtil : DiffUtil.ItemCallback<BaseDataAboutApp
 }
 
 
-class DataAboutAppAdapter :ListAdapter<BaseDataAboutAppObject,SimpleDataAboutAppViewHolder>(BaseDataAboutAppDiffUtil) {
+class DataAboutAppAdapter :ListAdapter<BaseDataAboutAppObject, SimpleDataAboutAppViewHolder>(
+    BaseDataAboutAppDiffUtil
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleDataAboutAppViewHolder {
         return SimpleDataAboutAppViewHolder(ListItemDataAboutAppSimpleBinding.inflate(LayoutInflater.from(parent.context),parent,false))

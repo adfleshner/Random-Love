@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Random Coding love"
 include ':app'
+include ':dataaboutapp'

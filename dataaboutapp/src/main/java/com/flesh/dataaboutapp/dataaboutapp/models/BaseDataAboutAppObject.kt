@@ -1,4 +1,4 @@
-package io.shits.and.gigs.randomcodinglove.dataaboutapp.models
+package com.flesh.dataaboutapp.dataaboutapp.models
 
 sealed class BaseDataAboutAppObject {
     class SimpleDataAboutAppObject(val simpleData : String) : BaseDataAboutAppObject()

@@ -1,4 +1,4 @@
-package io.shits.and.gigs.randomcodinglove.dataaboutapp
+package com.flesh.dataaboutapp.dataaboutapp
 
 import android.app.Application
 import android.hardware.SensorManager
