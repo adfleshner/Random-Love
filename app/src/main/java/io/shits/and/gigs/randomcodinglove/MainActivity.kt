@@ -37,8 +37,11 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
     }
 
     override fun hearShake() {
-        DataAboutAppDialogFragment.
-            showDialog(supportFragmentManager,RandomLoveDataRepository(resources),this)
+        DataAboutAppDialogFragment.showDialog(
+            supportFragmentManager,
+            RandomLoveDataRepository(resources),
+            this
+        )
     }
 }
 
