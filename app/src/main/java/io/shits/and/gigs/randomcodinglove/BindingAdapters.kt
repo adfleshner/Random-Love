@@ -15,7 +15,6 @@ object BindingAdapters {
         textView.text = when(response){
             MoreLoveViewModel.Response.Failed ->  "No Love for you"
             is MoreLoveViewModel.Response.Success -> response.love.title
-            else -> { "Finding more love"}
         }
     }
 
@@ -25,14 +24,11 @@ object BindingAdapters {
         val gif = when(response){
             MoreLoveViewModel.Response.Failed -> "https://media.tenor.com/FZxj4M9HGSwAAAAd/jinsoulery-jinsoulburger.gif"
             is MoreLoveViewModel.Response.Success -> response.love.gifUrl
-            else -> { null }
         }
-        if(gif != null){
-            Glide.with(image)
-                .asGif()
-                .load(gif)
-                .into(image)
-        }
+        Glide.with(image)
+            .asGif()
+            .load(gif)
+            .into(image)
     }
 
     @JvmStatic
