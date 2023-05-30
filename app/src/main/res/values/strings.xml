@@ -3,4 +3,10 @@
     <string name="the_source">All Love from the thecodinglove.com</string>
     <string name="the_url">https://thecodinglove.com/</string>
     <string name="loading_next_image">Loading next image…</string>
+
+
+    <string name="git_branch_wrapper" translatable="false">Git Branch: %s</string>
+    <string name="version_name_wrapper" translatable="false">Version Name: %s</string>
+    <string name="build_type_wrapper" translatable="false">Build Type: %s</string>
+
 </resources>

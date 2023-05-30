@@ -64,7 +64,7 @@ class MoreLoveViewModel : ViewModel() {
             view.context.startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = view.context.getString(R.string.the_url).toUri()
             })
-        }catch (ex:ActivityNotFoundException){}
+        }catch (_:ActivityNotFoundException){}
     }
 
 }
