@@ -8,5 +8,6 @@
     <string name="git_branch_wrapper" translatable="false">Git Branch: %s</string>
     <string name="version_name_wrapper" translatable="false">Version Name: %s</string>
     <string name="build_type_wrapper" translatable="false">Build Type: %s</string>
+    <string name="image_content">Gif that is funny and from the Coding Love\n</string>
 
 </resources>
