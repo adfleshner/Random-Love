@@ -12,5 +12,4 @@ class RandomLoveDataRepository(resources: Resources) : DataAboutAppRepository() 
         addDataToList(resources.getString(R.string.build_type_wrapper, BuildConfig.BUILD_TYPE))
     }
 
-
 }

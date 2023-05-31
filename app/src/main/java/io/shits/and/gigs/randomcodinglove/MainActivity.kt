@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
 
-    private val _viewModel: MoreLoveViewModel by viewModels()
 
     private val _binding: ActivityMainBinding by lazy {
         val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -28,72 +27,21 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(_binding.root)
-        bindClickListeners()
         bindShake(this)
-        lifecycleScope.launch {
-            _viewModel.loveState.flowWithLifecycle(lifecycle).collectLatest { state ->
-                renderLoadingForState(state)
-                when (state) {
-                    is MoreLoveViewModel.MoreLoveState.Content -> {
-                        renderContent(state.love)
-                    }
-                    MoreLoveViewModel.MoreLoveState.Error -> {
-                        renderError()
-                    }
 
-                    else -> {
-                        // Do nothing because loading is handled else where.
-                    }
-                }
-            }
+        if(savedInstanceState == null){
+            supportFragmentManager.beginTransaction().replace(R.id.content,RandomLoveFragment() , RandomLoveFragment.TAG).commit()
         }
+
     }
 
-    private fun bindClickListeners() {
-        with(_binding){
-            loveImage.setOnClickListener {
-                _viewModel.getMoreLove()
-            }
-            loveFooter.setOnClickListener {
-                _viewModel.goToTheSource(it)
-            }
-        }
-    }
 
-    private fun renderLoadingForState(state: MoreLoveViewModel.MoreLoveState) {
-        val showLoading = state == MoreLoveViewModel.MoreLoveState.Loading
-        with(_binding){
-            loveLoading.isVisible = showLoading
-        }
-    }
-
-    private fun renderContent(love: Love) {
-        renderScreen(love.title, love.gifUrl)
-    }
-
-    private fun renderError() {
-        renderScreen(
-            "No Love for you",
-            "https://media.tenor.com/FZxj4M9HGSwAAAAd/jinsoulery-jinsoulburger.gif"
+    override fun hearShake() {
+        DataAboutAppDialogFragment.showDialog(
+            supportFragmentManager,
+            RandomLoveDataRepository(resources),
+            this
         )
     }
-
-    private fun renderScreen(title: String, gifUrl: String) {
-        with(_binding) {
-            textView.text = title
-            Glide.with(loveImage)
-                .asGif()
-                .load(gifUrl)
-                .into(loveImage)
-        }
-    }
-
-        override fun hearShake() {
-            DataAboutAppDialogFragment.showDialog(
-                supportFragmentManager,
-                RandomLoveDataRepository(resources),
-                this
-            )
-        }
-    }
+}
 
