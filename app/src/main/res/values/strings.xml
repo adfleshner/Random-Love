@@ -9,5 +9,6 @@
     <string name="version_name_wrapper" translatable="false">Version Name: %s</string>
     <string name="build_type_wrapper" translatable="false">Build Type: %s</string>
     <string name="image_content">Gif that is funny and from the Coding Love\n</string>
+    <string name="share_gifs">Check out this hilarious GIF I found on the Random Love App! 😄\n\n%s\n%s</string>
 
 </resources>

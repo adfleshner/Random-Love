@@ -1,40 +1,27 @@
 package io.shits.and.gigs.randomcodinglove
 
-import Love
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import io.shits.and.gigs.randomcodinglove.databinding.FragmentRandomLoveBinding
+import io.shits.and.gigs.randomcodinglove.utils.IntentUtils
+import io.shits.and.gigs.randomcodinglove.utils.viewBinding
+import io.shits.and.gigs.randomcodinglove.viewmodels.MoreLoveEvent
+import io.shits.and.gigs.randomcodinglove.viewmodels.MoreLoveState
 import io.shits.and.gigs.randomcodinglove.viewmodels.MoreLoveViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class RandomLoveFragment : Fragment() {
+class RandomLoveFragment : Fragment(R.layout.fragment_random_love) {
+
+    private val binding by viewBinding(FragmentRandomLoveBinding::bind)
 
     private val _viewModel: MoreLoveViewModel by viewModels()
-
-    private var _binding : FragmentRandomLoveBinding? = null
-    private val binding get() = _binding as FragmentRandomLoveBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRandomLoveBinding.inflate(layoutInflater,container,false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,10 +30,11 @@ class RandomLoveFragment : Fragment() {
             _viewModel.loveState.flowWithLifecycle(lifecycle).collectLatest { state ->
                 renderLoadingForState(state)
                 when (state) {
-                    is MoreLoveViewModel.MoreLoveState.Content -> {
-                        renderContent(state.love)
+                    is MoreLoveState.Content -> {
+                        renderContent(state.title, state.url)
                     }
-                    MoreLoveViewModel.MoreLoveState.Error -> {
+
+                    MoreLoveState.Error -> {
                         renderError()
                     }
 
@@ -56,29 +44,51 @@ class RandomLoveFragment : Fragment() {
                 }
             }
         }
+        lifecycleScope.launch {
+            _viewModel.events.flowWithLifecycle(lifecycle).collectLatest { event ->
+                when (event) {
+                    is MoreLoveEvent.goToSource -> {
+                        val uri = requireContext().getString(event.urlRes).toUri()
+                        IntentUtils.openUri(requireView(), uri)
+                    }
+
+                    is MoreLoveEvent.share -> {
+                        IntentUtils.shareText(
+                            requireView(),
+                            requireContext().getString(
+                                R.string.share_gifs,
+                                event.title, event.gif
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
-
     private fun bindClickListeners() {
-        with(binding){
+        with(binding) {
             loveImage.setOnClickListener {
                 _viewModel.getMoreLove()
             }
             loveFooter.setOnClickListener {
-                _viewModel.goToTheSource(it)
+                _viewModel.goToTheSource()
+            }
+            loveShare.setOnClickListener {
+                _viewModel.shareTheLove()
             }
         }
     }
 
-    private fun renderLoadingForState(state: MoreLoveViewModel.MoreLoveState) {
-        val showLoading = state == MoreLoveViewModel.MoreLoveState.Loading
-        with(binding){
+    private fun renderLoadingForState(state: MoreLoveState) {
+        val showLoading = state == MoreLoveState.Loading
+        with(binding) {
             loveLoading.isVisible = showLoading
         }
     }
 
-    private fun renderContent(love: Love) {
-        renderScreen(love.title, love.gifUrl)
+    private fun renderContent(title: String, gifUrl: String) {
+        renderScreen(title, gifUrl)
     }
 
     private fun renderError() {
@@ -100,7 +110,7 @@ class RandomLoveFragment : Fragment() {
 
     companion object {
         val TAG: String = RandomLoveFragment::class.java.simpleName
+        fun newInstance(): RandomLoveFragment =
+            RandomLoveFragment()
     }
-
-
 }
