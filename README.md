@@ -18,3 +18,8 @@ style="object-fit:cover;
 width:356px;
 height:756px;
 border: solid 1px #CCC"/>
+
+## Features
+Random Gifs when you click the image.
+Clicking theCodingLove.com footer to go to theCodingLove
+Clicking the Share Icon to share the current gif. :)
