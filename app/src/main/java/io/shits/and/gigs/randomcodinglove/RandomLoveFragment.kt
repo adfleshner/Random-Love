@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import io.shits.and.gigs.randomcodinglove.databinding.FragmentRandomLoveBinding
 import io.shits.and.gigs.randomcodinglove.utils.IntentUtils
 import io.shits.and.gigs.randomcodinglove.utils.viewBinding
@@ -16,12 +17,13 @@ import io.shits.and.gigs.randomcodinglove.viewmodels.MoreLoveState
 import io.shits.and.gigs.randomcodinglove.viewmodels.MoreLoveViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomLoveFragment : Fragment(R.layout.fragment_random_love) {
 
     private val binding by viewBinding(FragmentRandomLoveBinding::bind)
 
-    private val _viewModel: MoreLoveViewModel by viewModels()
+    private val _viewModel: MoreLoveViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,6 +86,7 @@ class RandomLoveFragment : Fragment(R.layout.fragment_random_love) {
         val showLoading = state == MoreLoveState.Loading
         with(binding) {
             loveLoading.isVisible = showLoading
+            loveLoadingText.isVisible = showLoading
         }
     }
 
@@ -101,7 +104,7 @@ class RandomLoveFragment : Fragment(R.layout.fragment_random_love) {
     private fun renderScreen(title: String, gifUrl: String) {
         with(binding) {
             textView.text = title
-            com.bumptech.glide.Glide.with(loveImage)
+            Glide.with(loveImage)
                 .asGif()
                 .load(gifUrl)
                 .into(loveImage)

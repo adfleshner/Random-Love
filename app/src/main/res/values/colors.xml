@@ -5,4 +5,9 @@
     <color name="red_800">#c62828</color>
     <color name="dark_red_800">#8e0000</color>
     <color name="red_900">#b71c1c</color>
+
+    <!-- Themed colors -->
+    <color name="primaryTextColor">@color/black</color>
+
+
 </resources>

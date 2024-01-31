@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- Themed colors -->
+    <color name="primaryTextColor">@color/white</color>
+</resources>
