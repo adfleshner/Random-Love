@@ -11,11 +11,12 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val loveModule = module {
-    //create Random Love Service
+    // create Random Love Service
     single<RandomLoveService> { RandomLoveServiceImpl() }
-    //create Random Love Repo
+    // create Random Love Repo
     single<RandomLoveRepository> { RandomLoveRepositoryImpl(get()) }
-    //create Random Love Event Repo
+    // create Random Love Event Repo
     single<RandomLoveEventRepository> { RandomLoveEventRepositoryImpl() }
+    // create viewModel
     viewModel { MoreLoveViewModel(get(),get()) }
 }
