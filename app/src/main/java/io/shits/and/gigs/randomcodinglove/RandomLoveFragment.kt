@@ -2,6 +2,9 @@ package io.shits.and.gigs.randomcodinglove
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -10,6 +13,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import io.shits.and.gigs.randomcodinglove.databinding.FragmentRandomLoveBinding
+import io.shits.and.gigs.randomcodinglove.love.NoHistoryException
 import io.shits.and.gigs.randomcodinglove.utils.IntentUtils
 import io.shits.and.gigs.randomcodinglove.utils.viewBinding
 import io.shits.and.gigs.randomcodinglove.viewmodels.MoreLoveEvent
@@ -36,10 +40,16 @@ class RandomLoveFragment : Fragment(R.layout.fragment_random_love) {
                         renderContent(state.title, state.url)
                     }
 
-                    MoreLoveState.Error -> {
-                        renderError()
+                    is MoreLoveState.Error -> {
+                        when (state.error) {
+                            is NoHistoryException -> {
+                                requireActivity().finish()
+                            }
+                            else -> {
+                                renderError()
+                            }
+                        }
                     }
-
                     else -> {
                         // Do nothing because loading is handled else where.
                     }
@@ -79,6 +89,9 @@ class RandomLoveFragment : Fragment(R.layout.fragment_random_love) {
             loveShare.setOnClickListener {
                 _viewModel.shareTheLove()
             }
+            handleBackButton {
+                _viewModel.getMoreLove(true)
+            }
         }
     }
 
@@ -116,4 +129,18 @@ class RandomLoveFragment : Fragment(R.layout.fragment_random_love) {
         fun newInstance(): RandomLoveFragment =
             RandomLoveFragment()
     }
+}
+
+private fun Fragment.handleBackButton(function: () -> Unit) {
+    val callback = object : OnBackPressedCallback(
+        true // default to enabled
+    ) {
+        override fun handleOnBackPressed() {
+            function.invoke()
+        }
+    }
+    requireActivity().onBackPressedDispatcher.addCallback(
+        viewLifecycleOwner, // LifecycleOwner
+        callback
+    )
 }

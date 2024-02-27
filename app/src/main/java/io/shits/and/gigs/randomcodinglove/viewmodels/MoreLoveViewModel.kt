@@ -23,7 +23,7 @@ sealed class MoreLoveState {
 
     object Loading : MoreLoveState()
     class Content(val title: String, val url: String) : MoreLoveState()
-    object Error : MoreLoveState()
+    class Error(val error: Throwable) : MoreLoveState()
 }
 
 sealed class MoreLoveEvent {
@@ -37,12 +37,11 @@ class MoreLoveViewModel(
     private val eventRepository: RandomLoveEventRepository
 ) : ViewModel() {
 
+
+
     private var _currentLove: Love? = null
 
-    // Using the (!!) so I know dont need to do any error case for everything
-    // and make a catch all dunno if it is something that should be done but
-    // Im gonna try it and see if it is something that I like and if I think
-    // It makes sense.
+    // will
     private val currentLove : Love get() = requireNotNull(_currentLove)
 
     private val _loveState = MutableStateFlow<MoreLoveState>(MoreLoveState.Initial)
@@ -55,7 +54,7 @@ class MoreLoveViewModel(
         getMoreLove()
     }
 
-    fun getMoreLove() {
+    fun getMoreLove(wasBackPress : Boolean = false) {
         viewModelScope.launch(IO) {
             Log.d("MoreLoveViewModel", "Starting More Love")
             if (_loveState.value is MoreLoveState.Loading) {
@@ -68,17 +67,17 @@ class MoreLoveViewModel(
             }
             runCatching {
                 Log.d("MoreLoveViewModel", "Getting More Love")
-                moreLoveRepository.getMoreLove()
+                moreLoveRepository.historyAndLove(wasBackPress)
             }.onSuccess { love ->
                 Log.d("MoreLoveViewModel", "Got some love $love")
                 _currentLove = love
                 _loveState.update {
                     MoreLoveState.Content(love.title, love.gifUrl)
                 }
-            }.onFailure {
+            }.onFailure {error ->
                 Log.d("MoreLoveViewModel", "No Love for you")
                 _loveState.update {
-                    MoreLoveState.Error
+                    MoreLoveState.Error(error)
                 }
             }
         }

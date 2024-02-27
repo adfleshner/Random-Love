@@ -7,7 +7,7 @@ interface RandomLoveService{
     suspend fun getMoreLove() : Love?
 }
 
-class RandomLoveServiceImpl() : RandomLoveService    {
+class RandomLoveServiceImpl : RandomLoveService    {
     override suspend fun getMoreLove(): Love? {
         return Parser.findRandomCodingLoveGif()
     }

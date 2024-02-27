@@ -9,10 +9,9 @@ interface RandomLoveEventRepository {
 
 }
 
-class RandomLoveEventRepositoryImpl() : RandomLoveEventRepository {
+class RandomLoveEventRepositoryImpl : RandomLoveEventRepository {
 
     override fun createGoToSourceEvent(): MoreLoveEvent =
         MoreLoveEvent.goToSource(R.string.the_url)
-
 
 }
